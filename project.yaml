@@ -2,6 +2,12 @@
   description: A working agreement is essentially a promise to you or to your team on habits and processes you agree to follow while working on a project.
   tip: Try to incorporate as many of these habits as possible, as is they aim to reflect a real-world workflow vs just hacking away at something.  They are designed to keep you organized and ensure you deliver a quality product.
   steps:
+  - name: STTP Specification Review
+    icon: material-flowsheet bg-blue-600
+    text: The STTP Specification can be found in the following link.
+    links:
+    - STTP Specification: https://github.com/Anthonyhawkins/sttp
+
   - name: Error Handling and Feedback
     habit: true
     icon: material-error bg-rose-600
@@ -46,7 +52,6 @@
       text: As a developer, I want to set up the TCP server to listen for incoming connections, so that the STTP server can accept client requests.
       list:
         - The TCP server must be initialized to listen on the configured address and port.
-        - It should accept and handle multiple client connections simultaneously.
         - Basic logging should be implemented for incoming connections.
 
 - section: (F) Request Parsing
@@ -146,6 +151,7 @@
   description: Implement a caching system to improve the performance of the STTP server by storing frequently accessed files in memory.
   steps:
     - name: (S) Implement Cache Initialization
+      optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to initialize the caching system, so that frequently accessed files can be stored in memory.
       list:
@@ -154,6 +160,7 @@
         - Cache settings should be modifiable without restarting the server.
 
     - name: (S) Implement File Caching
+      optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to implement file caching, so that the server can quickly serve cached files to clients.
       list:
@@ -162,16 +169,18 @@
         - Cached files must expire based on the expiration setting.
 
     - name: (S) Cache Management and Expiry
+      optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to manage and expire cached files, so that the cache remains within the defined limits.
       list:
         - The server must implement logic to remove the least recently used (LRU) files when the cache reaches its max size or file count.
         - Cached files that exceed the expiration time must be removed from the cache.
 
-- section: (F) Concurrency and Thread Safety
+- section: (F) Concurrency and Thread Safety (Advanced)
   description: Implement concurrency in the STTP server to handle multiple client requests simultaneously and ensure thread safety, especially in shared resources like the cache.
   steps:
     - name: (S) Implement Goroutines for Handling Client Connections
+      optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to use concurrent execution to handle multiple client connections simultaneously, so that the server can serve multiple clients efficiently.
       list:
@@ -179,6 +188,7 @@
         - The main server loop should continue to accept new connections while handling current clients.
 
     - name: (S) Implement Mutex for Cache Access
+      optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to implement mutual exclusion mechanisms to protect access to the cache, so that concurrent reads and writes do not cause race conditions.
       list:
@@ -187,6 +197,7 @@
         - The server should be tested to ensure there are no race conditions when accessing the cache.
 
     - name: (S) Implement Communication Mechanisms for Safe Interaction
+      optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to implement safe communication mechanisms for concurrent execution threads, so that the server can coordinate actions without shared memory issues.
       list:
@@ -195,6 +206,7 @@
         - The server must ensure communication channels are closed properly to avoid deadlocks or resource leaks.
 
     - name: (S) Test for Race Conditions
+      optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to thoroughly test for race conditions, so that the server remains stable and reliable under concurrent load.
       list:

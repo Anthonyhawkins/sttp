@@ -213,6 +213,9 @@ cache:
 
 ```
 
+## Implementing Caching
+When caching files the keys to uniquely identify a cached item should be the entire requested file path `/some/path/snippet.txt` NOT just `snippet.txt`
+
 # Interaction with an STTP Server using Netcat
 Here are some example commands using `netcat` (`nc`) to interact with the STTP server. These examples assume the STTP server is running on `<ip_address>` at port `8080`.
 
