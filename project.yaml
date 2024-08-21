@@ -147,7 +147,7 @@
         - The server must catch unexpected errors during file operations.
         - The server should return a `500 SERVER ERROR` response with a relevant error message.
 
-- section: (F) Caching System (Optional)
+- section: (F) Caching System
   description: Implement a caching system to improve the performance of the STTP server by storing frequently accessed files in memory.
   steps:
     - name: (S) Implement Cache Initialization
@@ -157,7 +157,7 @@
       list:
         - The configuration file must include cache settings such as `enabled`, `max_files`, `max_size`, and `expiration`.
         - The caching system must be initialized based on the provided settings.
-        - Cache settings should be modifiable without restarting the server.
+        - Note that the expiration setting will be used in next feature - (F) Concurrency and Thread Safety
 
     - name: (S) Implement File Caching
       optional: true
@@ -166,9 +166,9 @@
       list:
         - The server must cache files upon first access and store them based on the defined limits.
         - The server should serve files from the cache if available, reducing disk I/O.
-        - Cached files must expire based on the expiration setting.
+        - A cached file shall be removed from the cache if the file is modified or replaced with an STTP UPDATE request.
 
-    - name: (S) Cache Management and Expiry
+    - name: (S) Cache Management
       optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to manage and expire cached files, so that the cache remains within the defined limits.
@@ -179,7 +179,7 @@
 - section: (F) Concurrency and Thread Safety (Advanced)
   description: Implement concurrency in the STTP server to handle multiple client requests simultaneously and ensure thread safety, especially in shared resources like the cache.
   steps:
-    - name: (S) Implement Goroutines for Handling Client Connections
+    - name: (S) Implement Concurrency for Handling Client Connections
       optional: true
       icon: material-sticky_note_2 bg-yellow-600
       text: As a developer, I want to use concurrent execution to handle multiple client connections simultaneously, so that the server can serve multiple clients efficiently.
@@ -195,6 +195,14 @@
         - The server must implement mutual exclusion to control access to the cache.
         - The server should ensure only one execution thread can read or write to the cache at a time.
         - The server should be tested to ensure there are no race conditions when accessing the cache.
+
+    - name: (S) Cache Expiry
+      optional: true
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to manage and expire cached files, so that the cache remains within the defined limits.
+      list:
+        - Introduce a background routine which will remove items from the cache.
+        - Cached files that exceed the expiration time must be removed from the cache.
 
     - name: (S) Implement Communication Mechanisms for Safe Interaction
       optional: true
