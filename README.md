@@ -221,7 +221,7 @@ To Test Caching functionality, you can use the `runPerformanceTest.sh` script. M
 
 ```bash
 chmod +x runPerformanceTest.sh
-./runPerformanceTest.sh
+./runPerformanceTest.sh -h
 ```
 
 
