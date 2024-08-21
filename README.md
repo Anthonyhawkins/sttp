@@ -216,13 +216,75 @@ cache:
 ## Implementing Caching
 When caching files the keys to uniquely identify a cached item should be the entire requested file path `/some/path/snippet.txt` NOT just `snippet.txt`
 
-## Testing Caching
-To Test Caching functionality, you can use the `runPerformanceTest.sh` script. Modify the variables within it as needed.
+## Script Description: `runPerformanceTest.sh`
 
-```bash
-chmod +x runPerformanceTest.sh
-./runPerformanceTest.sh -h
-```
+This bash script is designed to test the performance and caching capabilities of an STTP (Short Text Transfer Protocol) server by automating the creation, retrieval, and deletion of text snippets. The script provides options for controlling the execution interval, concurrency during retrieval operations, and server connection details.
+
+### Key Features:
+
+1. **Snippet Creation**:
+   - The script creates 1000 pre-defined snippets on the STTP server using the `CREATE` action.
+   - Each snippet is a short text string, uniquely numbered from 1 to 1000.
+   - The snippets are stored in files named `snippet_0.txt` through `snippet_999.txt` on the server.
+
+2. **Snippet Retrieval with Caching Test**:
+   - The script retrieves each of the 1000 snippets using the `SHOW` action.
+   - To test the server's caching performance, every 10th snippet is retrieved twice (immediately after the first retrieval).
+   - The retrieval operations can be performed concurrently, depending on the specified concurrency level.
+
+3. **Snippet Deletion**:
+   - After retrieval, the script deletes all 1000 snippets using the `DELETE` action, cleaning up the server.
+
+4. **Execution Time Measurement**:
+   - The script measures the total time taken to create, retrieve, and delete the snippets.
+   - The execution time is displayed in seconds at the end of the script.
+
+5. **Configurable Options**:
+   - **Server Address (`-a`)**: The address of the STTP server. Defaults to `localhost`.
+   - **Server Port (`-p`)**: The port on which the STTP server is listening. Defaults to `8080`.
+   - **Interval (`-i`)**: The interval in milliseconds between requests. Defaults to `100` milliseconds.
+   - **Concurrency (`-c`)**: The number of concurrent retrieval requests to make. Defaults to `1`, meaning sequential execution.
+   - **Help (`-h`)**: Displays usage information for the script.
+
+### Usage Example:
+
+- To run the script with default settings:
+
+  ```bash
+  ./runPerformanceTest.sh
+  ```
+
+- To run the script with 5 concurrent retrieval requests and a 200ms interval:
+
+  ```bash
+  ./runPerformanceTest.sh -c 5 -i 200
+  ```
+
+- To display the usage information:
+
+  ```bash
+  ./runPerformanceTest.sh -h
+  ```
+
+### How the Script Works:
+
+1. **Initialization**: 
+   - The script first parses the command-line arguments to set up the server address, port, request interval, concurrency level, and any other options.
+   
+2. **Snippet Creation**:
+   - The script enters a loop where it sends `CREATE` requests to the server for each snippet, pausing for the specified interval between each request.
+
+3. **Snippet Retrieval**:
+   - The script retrieves each snippet. If concurrency is enabled (`-c` > 1), multiple retrieval requests run in parallel.
+   - Every 10th snippet is retrieved twice to test caching.
+
+4. **Snippet Deletion**:
+   - Once retrieval is complete, the script sends `DELETE` requests for each snippet, again pausing for the specified interval between requests.
+
+5. **Completion**:
+   - The script calculates the total time taken for the entire operation and displays it in seconds.
+
+This script is useful for stress-testing an STTP server's performance, particularly its handling of concurrent requests and caching efficiency. It provides a systematic way to create, retrieve, and clean up test data on the server while offering insights into how the server performs under different load conditions.
 
 
 # Interaction with an STTP Server using Netcat
