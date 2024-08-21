@@ -1,0 +1,203 @@
+- section: Working Agreement
+  description: A working agreement is essentially a promise to you or to your team on habits and processes you agree to follow while working on a project.
+  tip: Try to incorporate as many of these habits as possible, as is they aim to reflect a real-world workflow vs just hacking away at something.  They are designed to keep you organized and ensure you deliver a quality product.
+  steps:
+  - name: Error Handling and Feedback
+    habit: true
+    icon: material-error bg-rose-600
+    text: As a developer, I agree to handle errors gracefully and provide feedback to the user.
+    list:
+      - Implement error messages for invalid commands, missing arguments, or other user errors.
+      - Ensure success messages for operations such as adding tasks or creating lists are distinct and easily visible.
+      - Provide suggestions for correcting common errors to guide users in the right direction.
+  - name: Stories Must be Properly Tested
+    habit: true
+    optional: true
+    icon: material-labs bg-emerald-600
+    text: As a developer, I agree to ensure each story is properly tested.  (A lot of times it can be a pain to test a CLI's tool main function, you'll understand when you get there, try your best, 100% code coverage is not required)
+    list:
+      - Each story includes necessary unit testing.
+      - Tests are run upon completion of a story.
+      - All tests should pass before merge.
+  - name: Use Story Branches
+    habit: true
+    optional: true
+    icon: material-folder_data bg-amber-600
+    text: As a developer, I agree to create a new git branch for each story I work on.
+    list:
+      - Checkout a new branch for each story.
+      - Development for a story is committed to the story branch.
+      - Upon completion, create a PR to merge a story branch back into main.
+      - If you are doing this project solo, you will be merging your own PRs.
+
+- section: (F) Server Initialization
+  description: Set up the basic structure and configuration for the STTP server, including handling network connections and reading configuration files.
+  steps:
+    - name: (S) Server Configuration File
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to create a configuration file for the STTP server, so that I can easily manage settings like address, port, and docroot.
+      list:
+        - The configuration file must be created in YAML format.
+        - It should include settings for `listen_address`, `port`, and `docroot`.
+        - The server must parse the configuration file at startup.
+
+    - name: (S) Initialize TCP Server
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to set up the TCP server to listen for incoming connections, so that the STTP server can accept client requests.
+      list:
+        - The TCP server must be initialized to listen on the configured address and port.
+        - It should accept and handle multiple client connections simultaneously.
+        - Basic logging should be implemented for incoming connections.
+
+- section: (F) Request Parsing
+  description: Implement the logic to parse incoming STTP requests, so the server can understand and respond to client commands.
+  steps:
+    - name: (S) Parse STTP Request Format
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to parse incoming STTP requests, so that the server can understand the action, path, and optional content.
+      list:
+        - The server must parse the STTP request format - `<action> <path/filename> (<contents> optional)`.
+        - The request format must be validated.
+        - The server should return an appropriate response for invalid requests.
+
+    - name: (S) Implement Request Handlers
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement handlers for each STTP action, so that the server can process client requests.
+      list:
+        - Handlers must be created for `CREATE`, `SHOW`, `LIST`, `DELETE`, and `UPDATE` actions.
+        - Each handler must perform the correct operation based on the request.
+        - The server should return appropriate success or error responses after processing the request.
+
+- section: (F) File Operations
+  description: Implement file operations for the STTP server, allowing it to create, read, update, and delete files as requested by the client.
+  steps:
+    - name: (S) Implement CREATE Operation
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement the CREATE operation, so that the server can create new files with the provided content.
+      list:
+        - The filename must be validated and must not exceed 32 characters.
+        - The server must create the file with the specified content if it does not already exist.
+        - The server should return a `100 CREATED` response if the operation is successful or an appropriate error response otherwise.
+
+    - name: (S) Implement SHOW Operation
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement the SHOW operation, so that the server can retrieve and return the content of a specified file.
+      list:
+        - The server must check if the specified file exists.
+        - The server must return the file content with a `200 OK` response if the file exists.
+        - The server should return a `400 NOT FOUND` response if the file does not exist.
+
+    - name: (S) Implement LIST Operation
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement the LIST operation, so that the server can return a list of files in a specified directory.
+      list:
+        - The server must validate that the directory exists.
+        - The server should return a list of files in the directory with a `200 OK` response.
+        - The server should return a `400 NOT FOUND` response if the directory does not exist.
+
+    - name: (S) Implement DELETE Operation
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement the DELETE operation, so that the server can delete a specified file.
+      list:
+        - The server must check if the specified file exists.
+        - The server must delete the file and return a `600 DELETED` response.
+        - The server should return a `400 NOT FOUND` response if the file does not exist.
+
+    - name: (S) Implement UPDATE Operation
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement the UPDATE operation, so that the server can modify the content of a specified file.
+      list:
+        - The filename must be validated and must not exceed 32 characters.
+        - The server must update the file content if the file exists.
+        - The server should return a `200 OK` response if the operation is successful, or a `400 NOT FOUND` response if the file does not exist.
+
+- section: (F) Error Handling and Response
+  description: Implement error handling and ensure the server returns appropriate responses for all operations.
+  steps:
+    - name: (S) Handle Invalid Requests
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to handle invalid requests gracefully, so that the server provides useful feedback to the client.
+      list:
+        - The server must return a `300 CLIENT ERROR` response for invalid commands or arguments.
+        - The server should provide suggestions or correct format guidelines in the response message.
+
+    - name: (S) Implement 310 FILENAME TOO LONG Response
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement the 310 FILENAME TOO LONG response, so that the server enforces the filename length limit.
+      list:
+        - The server must check the filename length for all file operations.
+        - The server should return a `310 FILENAME TOO LONG` response if the filename exceeds 32 characters.
+
+    - name: (S) Handle Path Errors
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to handle errors related to paths, so that the server can correctly respond to issues with paths that don't exist.
+      list:
+        - The server must return a `410 PATH NOT FOUND` response if a specified path does not exist.
+        - The server should return a `510 CANNOT CREATE PATH` response if it is unable to create the required path.
+
+    - name: (S) Implement 500 SERVER ERROR Response
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement a 500 SERVER ERROR response, so that the server can inform the client of internal errors.
+      list:
+        - The server must catch unexpected errors during file operations.
+        - The server should return a `500 SERVER ERROR` response with a relevant error message.
+
+- section: (F) Caching System (Optional)
+  description: Implement a caching system to improve the performance of the STTP server by storing frequently accessed files in memory.
+  steps:
+    - name: (S) Implement Cache Initialization
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to initialize the caching system, so that frequently accessed files can be stored in memory.
+      list:
+        - The configuration file must include cache settings such as `enabled`, `max_files`, `max_size`, and `expiration`.
+        - The caching system must be initialized based on the provided settings.
+        - Cache settings should be modifiable without restarting the server.
+
+    - name: (S) Implement File Caching
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement file caching, so that the server can quickly serve cached files to clients.
+      list:
+        - The server must cache files upon first access and store them based on the defined limits.
+        - The server should serve files from the cache if available, reducing disk I/O.
+        - Cached files must expire based on the expiration setting.
+
+    - name: (S) Cache Management and Expiry
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to manage and expire cached files, so that the cache remains within the defined limits.
+      list:
+        - The server must implement logic to remove the least recently used (LRU) files when the cache reaches its max size or file count.
+        - Cached files that exceed the expiration time must be removed from the cache.
+
+- section: (F) Concurrency and Thread Safety
+  description: Implement concurrency in the STTP server to handle multiple client requests simultaneously and ensure thread safety, especially in shared resources like the cache.
+  steps:
+    - name: (S) Implement Goroutines for Handling Client Connections
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to use concurrent execution to handle multiple client connections simultaneously, so that the server can serve multiple clients efficiently.
+      list:
+        - The server must implement concurrent execution to handle each client connection in parallel.
+        - The main server loop should continue to accept new connections while handling current clients.
+
+    - name: (S) Implement Mutex for Cache Access
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement mutual exclusion mechanisms to protect access to the cache, so that concurrent reads and writes do not cause race conditions.
+      list:
+        - The server must implement mutual exclusion to control access to the cache.
+        - The server should ensure only one execution thread can read or write to the cache at a time.
+        - The server should be tested to ensure there are no race conditions when accessing the cache.
+
+    - name: (S) Implement Communication Mechanisms for Safe Interaction
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to implement safe communication mechanisms for concurrent execution threads, so that the server can coordinate actions without shared memory issues.
+      list:
+        - The server must implement safe communication mechanisms between the main server loop and worker threads.
+        - The server should use these mechanisms to safely pass data between concurrent threads.
+        - The server must ensure communication channels are closed properly to avoid deadlocks or resource leaks.
+
+    - name: (S) Test for Race Conditions
+      icon: material-sticky_note_2 bg-yellow-600
+      text: As a developer, I want to thoroughly test for race conditions, so that the server remains stable and reliable under concurrent load.
+      list:
+        - The server must be tested using tools to identify potential race conditions.
+        - The server should be tested under simulated heavy load with multiple concurrent clients to ensure stability.
+        - Any identified race conditions must be fixed and re-tested to ensure stability.
