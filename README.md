@@ -353,7 +353,7 @@ Here’s a proposed CLI design for an STTP client, with flags and options that c
 
 #### Usage
 ```bash
-sttp-client [OPTIONS] <action> <path/filename> [content]
+sttp-client [OPTIONS] <action> sttp://<host>:<port>/<path/<filename> [content]
 ```
 
 #### Actions
@@ -364,8 +364,6 @@ sttp-client [OPTIONS] <action> <path/filename> [content]
 - `update`: Updates the specified file with new content.
 
 #### Global Flags and Options
-- `-a, --address string`: The server address to connect to. (default: `localhost`)
-- `-p, --port int`: The server port to connect to. (default: `8080`)
 - `-h, --help`: Displays help information.
 - `-v, --verbose`: Enables verbose output for debugging.
 
@@ -373,34 +371,32 @@ sttp-client [OPTIONS] <action> <path/filename> [content]
 
 1. **CREATE a file**:
    ```bash
-   sttp-client create /notes/reminder.txt "Buy milk" -a 127.0.0.1 -p 8080
+   sttp-client create sttp://<host>:<port>/notes/reminder.txt "Buy milk"
    ```
 
 2. **SHOW the content of a file**:
    ```bash
-   sttp-client show /notes/reminder.txt -a localhost -p 8080
+   sttp-client show sttp://<host>:<port>/notes/reminder.txt
    ```
 
 3. **LIST files in a directory**:
    ```bash
-   sttp-client list /notes/ -a localhost -p 8080
+   sttp-client list sttp://<host>:<port>/notes/
    ```
 
 4. **DELETE a file**:
    ```bash
-   sttp-client delete /notes/reminder.txt -a localhost -p 8080
+   sttp-client delete sttp://<host>:<port>/notes/reminder.txt
    ```
 
 5. **UPDATE a file**:
    ```bash
-   sttp-client update /notes/reminder.txt "Buy milk and bread" -a 127.0.0.1 -p 8080
+   sttp-client update sttp://<host>:<port>/notes/reminder.txt "Buy milk and bread"
    ```
 
 
 ### Explanation:
 - **Global Flags**:
-  - `-a, --address`: Specifies the server address. Defaults to `localhost`.
-  - `-p, --port`: Specifies the server port. Defaults to `8080`.
   - `-v, --verbose`: Enables verbose output for debugging.
   - `-h, --help`: Shows usage information.
   
